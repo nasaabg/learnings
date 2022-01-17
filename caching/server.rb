@@ -24,11 +24,13 @@ get '/nocache/index.html' do
 end
 
 get '/cache/index.html' do
-	page = redis.get('index.html')
+	puts 'Reading Redis cache'
 
+	page = redis.get('index.html')
   return page if page
 
 	Database.get('index.html').tap do |row|
+		puts 'Reading from DB & adding to cache'
 	  redis.set('index.html', row, ex: 10)
 	end
 end
