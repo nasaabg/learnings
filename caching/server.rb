@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'sinatra'
-require "sinatra/reloader" if development?
-require "redis"
+require 'sinatra/reloader' if development?
+require 'redis'
 
 require '../caching/database'
 
@@ -24,13 +26,13 @@ get '/nocache/index.html' do
 end
 
 get '/cache/index.html' do
-	puts 'Reading Redis cache'
+  puts 'Reading Redis cache'
 
-	page = redis.get('index.html')
+  page = redis.get('index.html')
   return page if page
 
-	Database.get('index.html').tap do |row|
-		puts 'Reading from DB & adding to cache'
-	  redis.set('index.html', row, ex: 10)
-	end
+  Database.get('index.html').tap do |row|
+    puts 'Reading from DB & adding to cache'
+    redis.set('index.html', row, ex: 10)
+  end
 end

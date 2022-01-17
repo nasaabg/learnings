@@ -1,10 +1,12 @@
-class Database
-	DATABASE = {
-		'index.html' => '<html>This is my index</html>'
-	}
+# frozen_string_literal: true
 
-	def self.get(key)
-		sleep 3
-		DATABASE[key]
-	end
+class Database
+  DATABASE = {
+    'index.html' => '<html>This is my index</html>'
+  }.freeze
+
+  def self.get(key)
+    sleep 3
+    DATABASE[key]
+  end
 end
